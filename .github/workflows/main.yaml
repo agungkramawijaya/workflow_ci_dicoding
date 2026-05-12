@@ -32,7 +32,10 @@ jobs:
           MLFLOW_TRACKING_URI: sqlite:///${{ github.workspace }}/mlruns.db
         run: |
           cd MLProject
-          mlflow run . --env-manager=local -P data_dir=indonesian-financial-phrasebank_preprocessing
+          mlflow run . \
+            --experiment-name "Sentiment_Analysis_RF" \
+            --env-manager=local \
+            -P data_dir=indonesian-financial-phrasebank_preprocessing
 
       - name: Persist Tracking Database & Artifacts
         if: always()

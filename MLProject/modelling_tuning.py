@@ -7,11 +7,12 @@ from sklearn.metrics import (
 )
 
 def run_hyperparameter_tuning(pipeline, parameters, X_train, y_train, X_test, y_test, experiment_name="Sentiment_Analysis_RF"):
-    mlflow.set_experiment(experiment_name)
-    
     # Deteksi apakah skrip berjalan di bawah 'mlflow run' (Parent Run)
     active_run = mlflow.active_run()
-
+    
+    if not active_run:
+        mlflow.set_experiment(experiment_name)
+    
     # Menggunakan nested=True agar kompatibel dengan workflow CI/CD nanti
     with mlflow.start_run(run_name="RF_Final_Evaluation", nested=True if active_run else False):
         # 1. Inisialisasi & Fit GridSearchCV

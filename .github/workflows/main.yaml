@@ -36,6 +36,7 @@ jobs:
           cd MLProject
           mlflow run . \
             --entry-point baseline --experiment-name "Sentiment_Analysis_Baseline" --env-manager=local -P data_dir=indonesian-financial-phrasebank_preprocessing
+          mlflow run . \
             --entry-point tuning --experiment-name "Sentiment_Analysis_RF" --env-manager=local -P data_dir=indonesian-financial-phrasebank_preprocessing
 
       - name: Persist Tracking Database & Artifacts

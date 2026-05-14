@@ -1,11 +1,13 @@
 name: Financial_Sentiment_Project
-
 conda_env: conda.yaml
 
 entry_points:
-  main:
+  baseline:
     parameters:
-      data_dir:
-        type: str
-        default: indonesian-financial-phrasebank_preprocessing
+      data_dir: {type: str, default: "indonesian-financial-phrasebank_preprocessing"}
     command: "python modelling.py --data_dir {data_dir}"
+  
+  tuning:
+    parameters:
+      data_dir: {type: str, default: "indonesian-financial-phrasebank_preprocessing"}
+    command: "python modelling_tuning.py --data_dir {data_dir}"

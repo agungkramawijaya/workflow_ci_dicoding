@@ -23,19 +23,23 @@ jobs:
           cache: "pip"
 
       - name: Install Dependencies
+        # Menginstall library yang ada di conda.yaml agar environment runner siap
         run: |
           python -m pip install --upgrade pip
-          pip install -r MLProject/requirements.txt
+          pip install mlflow pandas scikit-learn numpy cloudpickle psutil
 
       - name: Execute MLflow Pipeline
         env:
+          # Menggunakan SQLite agar database tracking konsisten di lingkungan CI
           MLFLOW_TRACKING_URI: sqlite:///${{ github.workspace }}/mlruns.db
         run: |
-          cd MLProject
+          # Pindah ke folder tempat file MLProject berada
+          cd Membangun_model
           mlflow run . \
+            --entry-point tuning \
             --experiment-name "Sentiment_Analysis_RF" \
             --env-manager=local \
-            -P data_dir=indonesian-financial-phrasebank_preprocessing
+            -P data_dir=../indonesian-financial-phrasebank_preprocessing
 
       - name: Persist Tracking Database & Artifacts
         if: always()
@@ -44,5 +48,5 @@ jobs:
           name: production-model-artifacts
           path: |
             ${{ github.workspace }}/mlruns.db
-            MLProject/mlruns/
+            Membangun_model/mlruns/
           retention-days: 14
